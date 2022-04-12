@@ -39,5 +39,5 @@ RUN chown -R mongo-shell:mongo-shell .
 
 USER mongo-shell
 
-ENTRYPOINT [ "/usr/bin/python", "benchrun.py" ]
+ENTRYPOINT [ "/usr/bin/python3", "benchrun.py" ]
 CMD []

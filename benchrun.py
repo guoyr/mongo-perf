@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from argparse import ArgumentParser, RawTextHelpFormatter
 from subprocess import Popen, PIPE, check_call
 from tempfile import NamedTemporaryFile
@@ -14,7 +14,7 @@ class MongoShellCommandError(Exception):
     """
 
 def parse_arguments():
-    usage = "python benchrun.py -f <list of test files> -t <list of thread counts>\n       run with --help for argument descriptions"
+    usage = "python3 benchrun.py -f <list of test files> -t <list of thread counts>\n       run with --help for argument descriptions"
     parser = ArgumentParser(description="mongo-perf micro-benchmark utility", usage=usage, formatter_class=RawTextHelpFormatter)
 
     parser.add_argument('-f', '--testfiles', dest='testfiles', nargs="+",

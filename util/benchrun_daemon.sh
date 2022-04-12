@@ -241,9 +241,9 @@ function do_git_tasks() {
         echo "Getting Binaries with options: ${BINARIES_OPTIONS}"
         if [ $THIS_PLATFORM == 'Windows' ]
         then
-                eval $(python `cygpath -w ${MPERFPATH}/util/get-mongodb-binaries` --dir `cygpath -w "${DLPATH}"` ${BINARIES_OPTIONS})
+                eval $(python3 `cygpath -w ${MPERFPATH}/util/get-mongodb-binaries` --dir `cygpath -w "${DLPATH}"` ${BINARIES_OPTIONS})
         else
-                eval $(python ${MPERFPATH}/util/get-mongodb-binaries --dir "${DLPATH}" ${BINARIES_OPTIONS})
+                eval $(python3 ${MPERFPATH}/util/get-mongodb-binaries --dir "${DLPATH}" ${BINARIES_OPTIONS})
         fi
         chmod +x ${DLPATH}/${MONGOD}
         if [ ! -x ${DLPATH}/${MONGOD} ]
@@ -528,20 +528,20 @@ function determine_benchrun_label() {
 function run_benchrun() {
 
     clear_caches
-    ${BR_START} python benchrun.py -l ${BASE_BENCHRUN_LABEL} ${BR_OPTIONS}
+    ${BR_START} python3 benchrun.py -l ${BASE_BENCHRUN_LABEL} ${BR_OPTIONS}
 
     # Run with multi-DB
     if [ ! -z "$MPERF_MULTI_DB" ]
     then
         clear_caches
-        ${BR_START} python benchrun.py -l "${BASE_BENCHRUN_LABEL}-multidb${MPERF_MULTI_DB}" ${BR_OPTIONS} -m ${MPERF_MULTI_DB}
+        ${BR_START} python3 benchrun.py -l "${BASE_BENCHRUN_LABEL}-multidb${MPERF_MULTI_DB}" ${BR_OPTIONS} -m ${MPERF_MULTI_DB}
     fi
 
     # Run with multi-collection.
     if [ ! -z "$MPERF_MULTI_COLL" ]
     then
         clear_caches
-        ${BR_START} python benchrun.py -l "${BASE_BENCHRUN_LABEL}--multicoll${MPERF_MULTI_COLL}" ${BR_OPTIONS} --multicoll ${MPERF_MULTI_COLL}
+        ${BR_START} python3 benchrun.py -l "${BASE_BENCHRUN_LABEL}--multicoll${MPERF_MULTI_COLL}" ${BR_OPTIONS} --multicoll ${MPERF_MULTI_COLL}
     fi
 
 }
@@ -605,7 +605,7 @@ function run_mongo_perf_mmsa() {
         for STORAGE_ENGINE in $SE_WT $SE_MMAP
         do
             MMSA_OPTIONS_FILE=$(determine_mmsa_options_file)
-            eval $(python ${MPERFPATH}/util/mms-automation-config --optionsfile ${MMSA_OPTIONS_FILE})
+            eval $(python3 ${MPERFPATH}/util/mms-automation-config --optionsfile ${MMSA_OPTIONS_FILE})
             sleep 15
 
             cd $MPERFPATH
@@ -626,7 +626,7 @@ function run_mongo_perf_mmsa() {
             run_benchrun
 
             # shutdown the server and clean up the files
-            eval $(python ${MPERFPATH}/util/mms-automation-config --optionsfile ${MMSA_OPTIONS_FILE} --shutdown)
+            eval $(python3 ${MPERFPATH}/util/mms-automation-config --optionsfile ${MMSA_OPTIONS_FILE} --shutdown)
             unlink ${MMSA_OPTIONS_FILE}
         done
     done
