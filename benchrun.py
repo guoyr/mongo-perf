@@ -5,9 +5,8 @@ from tempfile import NamedTemporaryFile
 import datetime
 import sys
 import json
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import os
-
 
 
 class MongoShellCommandError(Exception):
@@ -220,7 +219,7 @@ def main():
               ");")
 
     commands = '\n'.join(commands)
-    print commands
+    print(commands)
 
     with NamedTemporaryFile(suffix='.js') as js_file:
         js_file.write(commands)
@@ -252,7 +251,7 @@ def main():
                 got_results = True
                 getting_results = False
             elif readout:
-                print line
+                print(line)
             elif not got_results and getting_results:
                 line_results += line
 
@@ -263,7 +262,7 @@ def main():
         json.dump(results_parsed, out, indent=4, separators=(',', ': '))
         out.close()
     else:
-        print json.dumps(results_parsed, indent=4, separators=(',', ': '))
+        print(json.dumps(results_parsed, indent=4, separators=(',', ': ')))
 
 if __name__ == '__main__':
     try:

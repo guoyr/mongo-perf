@@ -5,10 +5,10 @@ import tempfile
 import zipfile
 
 from os import listdir
-from urllib2 import urlopen
+from urllib.request import urlopen
 
 
-class BinaryDownload(object):
+class BinaryDownload:
     """Download of the binaries package """
 
     def __init__(self, link=None, archive=None, archive_type=None, hash=None):

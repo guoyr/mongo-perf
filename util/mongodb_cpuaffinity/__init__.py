@@ -14,7 +14,7 @@ class CPUAffinitySetNotAvailableError(Exception):
     """
 
 
-class CPUNode(object):
+class CPUNode:
     def __init__(self, cpu_list):
         self.cpu_list = cpu_list
 

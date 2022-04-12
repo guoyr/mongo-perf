@@ -4,7 +4,7 @@ import pickle
 import platform
 import shutil
 
-import repositories
+from . import repositories
 from mongodb_binaries.errors import (BinariesNotAvailableError,
                                      DownloadDirectoryExistsError)
 from mongodb_binaries.repositories import (MCIRepository,
@@ -50,7 +50,7 @@ class CurrentBinaries:
         self.distribution = distribution
 
 
-class BinariesCriteria(object):
+class BinariesCriteria:
     """The Criteria used for downloading a set of binaries."""
 
     def __eq__(self, other):
@@ -123,7 +123,7 @@ class BinariesCriteria(object):
         return criteria
 
 
-class BinariesManager(object):
+class BinariesManager:
     """
     Manage a set of Binaries for a particular Directory
     """

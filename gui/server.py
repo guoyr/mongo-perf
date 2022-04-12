@@ -23,7 +23,7 @@ import time
 
 from bottle import *
 from collections import defaultdict
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 
 
 DEFAULT_OPTIONS = {
@@ -198,7 +198,7 @@ def process_cursor(cursor, multidb):
     aggregate = defaultdict(list)
     result_size = cursor.count(with_limit_and_skip=True)
 
-    for index in xrange(0, result_size):
+    for index in range(0, result_size):
         entry = cursor[index]
         for mdb in multidb.split(' '):
             mdbstr = 'singledb' if mdb == '0' else 'multidb'
@@ -225,11 +225,11 @@ def process_cursor(cursor, multidb):
                         # legacy data before we had commit_date in the schema
                         row['date'] = 'legacy'
 
-                    for (n, res) in result['results'].iteritems():
+                    for (n, res) in result['results'].items():
                         row[n] = res
                     aggregate[result['name']].append(row)
 
-    aggregate = sorted(aggregate.iteritems(), key=lambda (k, v): k)
+    aggregate = sorted(iter(aggregate.items()), key=lambda k_v: k_v[0])
     out = []
 
     for item in aggregate:
@@ -297,7 +297,7 @@ def results_page():
                     for k in result.keys():
                         if k.isdigit():
                             threadset.add(k)
-                    threads = list(threadset)
+                    threads = threadset
                     threads.sort(key=int)
                 result_entry = []
                 result_entry.append(result['date'])
@@ -333,7 +333,7 @@ def results_page():
                                           result['server_storage_engine'])),
                      'data': sorted(
                          [int(k), [v['ops_per_sec'], v['standardDeviation']]]
-                         for (k, v) in result.iteritems() if k.isdigit())})
+                         for (k, v) in result.items() if k.isdigit())})
                 threads.update(int(k) for k in result if k.isdigit())
             dygraph_data, dygraph_labels = to_dygraphs_data_format(out)
             dygraph_results.append({'data': json.dumps(dygraph_data),
@@ -460,8 +460,8 @@ def get_rows(commit_regex, start_date, end_date, label_regex, version_regex,
         if 'end_time' in record.keys() and 'run_time' in record.keys():
             run_time = (record['end_time'] - record['run_time'])
             run_time = '{0:02}:{1:02}:{2:02}'.format(run_time.seconds // 3600,
-                                                  run_time.seconds % 3600 // 60,
-                                                  run_time.seconds % 60)
+                                                     run_time.seconds % 3600 // 60,
+                                                     run_time.seconds % 60)
         else:
             run_time = None
 
@@ -488,7 +488,7 @@ def get_rows(commit_regex, start_date, end_date, label_regex, version_regex,
             "crudOptions": crudOptions,
             "run_time": run_time,
             "test_suites": sorted(test_suites),
-            "tests": list(sorted(tests)),
+            "tests": sorted(tests),
             # "threads": sorted(thread_count_set, key=int),
             "server_storage_engine": server_storage_engine,
             "topology": topology

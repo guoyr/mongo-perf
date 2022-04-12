@@ -7,7 +7,8 @@ import yaml
 from mongodb_binaries.utils import BinaryDownload
 from mongodb_binaries.errors import BinariesNotAvailableError
 from string import Template
-from urllib2 import URLError, urlopen
+from urllib.error import URLError
+from urllib.request import urlopen
 
 _HAS_MCI_TOOLS = True
 try:
@@ -40,7 +41,7 @@ def get_mci_id_cookies():
         return {}
 
 
-class AbstractRepository(object):
+class AbstractRepository:
     """Abstract base class for a Repository type
        It should always implement the get_available
        Its constructor should pass in any parameters needed
@@ -244,7 +245,7 @@ class MCILatestSuccessfulTasksRepository(MCIRepository):
         # First need to get a list of version_id's that we can iterate through
         versions = self._get_version_history(project)
 
-        for job_id, version in versions.iteritems():
+        for job_id, version in versions.items():
             endpoint = _MCI_VERSION_STATUS_ROOT + job_id + "/status"
             resp = requests.get(endpoint, cookies=get_mci_id_cookies())
             if resp.status_code == 200:
